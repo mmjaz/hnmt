@@ -53,13 +53,11 @@ class HierarchicalContext(nn.Module):
 		
 		self.context_size = context_size
 		self.padding_idx = padding_idx
-
+		self.dropout = nn.Dropout(dropout)
 		self.layer_norm_query_word = onmt.modules.LayerNorm(size)
 		self.layer_norm_query_sent = onmt.modules.LayerNorm(size)
 		self.layer_norm_word = onmt.modules.LayerNorm(size)
 		self.layer_norm_sent = onmt.modules.LayerNorm(size)
-
- 		self.dropout = nn.Dropout(dropout)
 
 		self.sent_attn = onmt.modules.MultiHeadedAttention(head_count, size, dropout=dropout)
 		self.word_attn = onmt.modules.MultiHeadedAttention(head_count, size, dropout=dropout)
@@ -175,7 +173,7 @@ class HierarchicalContext(nn.Module):
 		if key_word is not None:
 			key_sent = key_word.view(b_size, c_size, t_size, d_size).transpose(1,2).contiguous().view(b_size*t_size, c_size, d_size)
 		else:
-			 key_sent = context_sent
+			key_sent = context_sent
 
 		"""  Create the padding mask for context  """  
 		mask_sent = index < 0

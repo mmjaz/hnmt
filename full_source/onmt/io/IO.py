@@ -207,7 +207,7 @@ def build_dataset(fields, data_type, src_path, tgt_path, doc_path=None, src_dir=
 		TextDataset.make_text_examples_nfeats_tpl(
 			tgt_path, tgt_seq_length_trunc, "tgt")
 
-	doc_index = [int(l.strip()) for l in open(doc_path)]
+	doc_index = [int(l.strip()) for l in open(doc_path, encoding="utf8")]
 
 	if data_type == 'text':
 		dataset = TextDataset(fields, src_examples_iter, tgt_examples_iter, doc_index,
@@ -457,7 +457,7 @@ class DocumentIterator(torchtext.data.Iterator):
 				count += len(minibatch)
 				yield torchtext.data.Batch(minibatch, self.dataset, self.device, self.train), indx
 			if not self.repeat:
-				raise StopIteration
+				return
 
 	def batch_eval(self):	
 		for r in self.doc_range:

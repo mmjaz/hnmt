@@ -14,7 +14,7 @@ count = 0
 for ls, lt in zip(f_s, f_t):
 	if ls.startswith("<title>"):
 		if not lt.startswith("<title>"): 
-			print "error "+str(count)
+			print ("error "+str(count))
 			break
 		ls = re.sub("(^\<title\>)(.*)(\</title\>)","\g<2>", ls).strip()
 		lt = re.sub("(^\<title\>)(.*)(\</title\>)","\g<2>", lt).strip()
@@ -27,7 +27,7 @@ for ls, lt in zip(f_s, f_t):
 
 	elif ls.startswith("<description>"):
 		if not lt.startswith("<description>"): 
-			print "error "+str(count)
+			print ("error "+str(count))
 			break
 		ls = re.sub("(^\<description\>)(.*)(\</description\>)","\g<2>", ls).strip()
 		lt = re.sub("(^\<description\>)(.*)(\</description\>)","\g<2>", lt).strip()
@@ -64,13 +64,13 @@ for test in ["dev2010", "tst2010", "tst2011", "tst2012", "tst2013"]:
 	for ls, lt in zip(f_s, f_t):
 		if ls.startswith("<talkid>"):
 			if not lt.startswith("<talkid>"): 
-				print "error "+str(count)
+				print ("error "+str(count))
 				break
 			s = re.sub("(^\<talkid\>)(.*)(\</talkid\>)","\g<2>", ls).strip()
 			t = re.sub("(^\<talkid\>)(.*)(\</talkid\>)","\g<2>", lt).strip()
 
 			if s!=t:
-				print "error "+str(count)+" "+test
+				print ("error "+str(count)+" "+test)
 				break
 
 			f_s_doc.write(ls.strip() + "\n")
@@ -80,7 +80,7 @@ for test in ["dev2010", "tst2010", "tst2011", "tst2012", "tst2013"]:
 
 		elif ls.startswith("<seg"): 
 			if not lt.startswith("<seg"): 
-				print "error "+str(count)+" "+test
+				print ("error "+str(count)+" "+test)
 				break
 
 			ls = re.sub("(^\<seg.*\>)(.*)(\</seg\>)","\g<2>", ls).strip()
