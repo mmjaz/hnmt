@@ -432,7 +432,7 @@ class DocumentIterator(torchtext.data.Iterator):
 			self.batches = self.batch_eval()
 			self.indx = np.array(self.doc_index)
 
-
+	# ******************************************************************************************************************
 	def get_context_index(self, batch):
 		d_index, d_range, prev_i, i = [False]*len(batch), [], 0, 0
 		for i, m in enumerate(batch):

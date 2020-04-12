@@ -151,7 +151,7 @@ class HierarchicalContext(nn.Module):
                 index = np.zeros([b_size, self.context_size]) - 1
             else:
                 assert b_size_ <= self.context_size, "Error in context"
-                index = np.matrix(range(b_size_ - self.context_size, 0) + range(b_size_))
+                index = np.matrix(list(range(b_size_ - self.context_size, 0)) + list(range(b_size_)))
                 index = index.repeat(b_size, axis=0)
 
         return index

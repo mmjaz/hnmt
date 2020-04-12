@@ -113,8 +113,8 @@ class TextDataset(ONMTDatasetBase):
 	def collapse_copy_scores(scores, batch, tgt_vocab, src_vocabs):
 		"""
 		Given scores from an expanded dictionary
-		corresponeding to a batch, sums together copies,
-		with a dictionary word when it is ambigious.
+		corresponding to a batch, sums together copies,
+		with a dictionary word when it is ambiguous.
 		"""
 		offset = len(tgt_vocab)
 		for b in range(batch.batch_size):
