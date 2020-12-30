@@ -354,5 +354,4 @@ class TransformerDecoderState(DecoderState):
 
 	def repeat_beam_size_times(self, beam_size):
 		""" Repeat beam_size times along batch dimension. """
-		self.src = Variable(self.src.data.repeat(1, beam_size, 1),
-							volatile=True)
+		self.src = self.src.data.repeat(1, beam_size, 1)

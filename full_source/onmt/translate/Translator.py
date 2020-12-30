@@ -149,7 +149,7 @@ class Translator(object):
 									 use_filter_pred=self.use_filter_pred)
 
 		data_iter = onmt.io.DocumentIterator(
-			dataset=data, device=self.gpu,
+			dataset=data, device=torch.device(self.gpu),
 			batch_size=batch_size, train=False,
 			sort_within_batch=False, shuffle=False)
 
@@ -265,7 +265,7 @@ class Translator(object):
 				for __ in range(batch_size)]
 
 		# Help functions for working with beams and batches
-		def var(a): return Variable(a, volatile=True)
+		def var(a): return torch.tensor(a, requires_grad=False)
 
 		def rvar(a): return var(a.repeat(1, beam_size, 1))
 
