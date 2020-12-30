@@ -235,7 +235,7 @@ class TextDataset(ONMTDatasetBase):
 			return alignment
 
 		fields["src_map"] = torchtext.data.Field(
-			use_vocab=False, tensor_type=torch.FloatTensor,
+			use_vocab=False, dtype=torch.float,
 			postprocessing=make_src, sequential=False)
 
 		def make_tgt(data, vocab, is_train):
@@ -246,11 +246,11 @@ class TextDataset(ONMTDatasetBase):
 			return alignment
 
 		fields["alignment"] = torchtext.data.Field(
-			use_vocab=False, tensor_type=torch.LongTensor,
+			use_vocab=False, dtype=torch.long,
 			postprocessing=make_tgt, sequential=False)
 
 		fields["indices"] = torchtext.data.Field(
-			use_vocab=False, tensor_type=torch.LongTensor,
+			use_vocab=False, dtype=torch.long,
 			sequential=False)
 
 		return fields
@@ -284,12 +284,12 @@ class TextDataset(ONMTDatasetBase):
 											  specials=[UNK_WORD, PAD_WORD])
 			self.src_vocabs.append(src_vocab)
 			# Mapping source tokens to indices in the dynamic dict.
-			src_map = torch.LongTensor([src_vocab.stoi[w] for w in src])
+			src_map = torch.long([src_vocab.stoi[w] for w in src])
 			example["src_map"] = src_map
 
 			if "tgt" in example:
 				tgt = example["tgt"]
-				mask = torch.LongTensor(
+				mask = torch.long(
 					[0] + [src_vocab.stoi[w] for w in tgt] + [0])
 				example["alignment"] = mask
 			yield example

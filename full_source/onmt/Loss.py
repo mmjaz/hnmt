@@ -33,7 +33,7 @@ import onmt.io
 class LossComputeBase(nn.Module):
     """
     Class for managing efficient loss computation. Handles
-    sharding next step predictions and accumulating mutiple
+    sharding next step predictions and accumulating multiple
     loss computations
 
 
@@ -174,7 +174,7 @@ class NMTLossCompute(LossComputeBase):
     def __init__(self, generator, tgt_vocab, normalization="sents",
                  label_smoothing=0.0):
         super(NMTLossCompute, self).__init__(generator, tgt_vocab)
-        assert (label_smoothing >= 0.0 and label_smoothing <= 1.0)
+        assert (0.0 <= label_smoothing <= 1.0)
         if label_smoothing > 0:
             # When label smoothing is turned on,
             # KL-divergence between q_{smoothed ground truth prob.}(w)
@@ -182,7 +182,7 @@ class NMTLossCompute(LossComputeBase):
             # If label smoothing value is set to zero, the loss
             # is equivalent to NLLLoss or CrossEntropyLoss.
             # All non-true labels are uniformly set to low-confidence.
-            self.criterion = nn.KLDivLoss(size_average=False)
+            self.criterion = nn.KLDivLoss(reduction='sum')
             one_hot = torch.randn(1, len(tgt_vocab))
             one_hot.fill_(label_smoothing / (len(tgt_vocab) - 2))
             one_hot[0][self.padding_idx] = 0
@@ -190,7 +190,7 @@ class NMTLossCompute(LossComputeBase):
         else:
             weight = torch.ones(len(tgt_vocab))
             weight[self.padding_idx] = 0
-            self.criterion = nn.NLLLoss(weight, size_average=False)
+            self.criterion = nn.NLLLoss(weight, reduction='sum')
         self.confidence = 1.0 - label_smoothing
 
     def _make_shard_state(self, batch, output, range_, attns=None):
