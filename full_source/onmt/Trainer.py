@@ -145,7 +145,7 @@ class Trainer(object):
 		
 		self.keep_checkpoint=10
 		if self.keep_checkpoint > 0:
-                    self.checkpoint_queue = deque([], maxlen=self.keep_checkpoint)
+			self.checkpoint_queue = deque([], maxlen=self.keep_checkpoint)
 	
 		assert(grad_accum_count > 0)
 		if grad_accum_count > 1:
@@ -300,13 +300,13 @@ class Trainer(object):
 				   '%s_acc_%.2f_ppl_%.2f_e%d.pt'
 				   % (opt.save_model, valid_stats.accuracy() if valid_stats is not None else 0,
 					  valid_stats.ppl() if valid_stats is not None else 0, epoch))
-                if self.keep_checkpoint > 0:
-                    if len(self.checkpoint_queue) == self.checkpoint_queue.maxlen:
-                        todel = self.checkpoint_queue.popleft()
-                        self._rm_checkpoint(todel)
-                    self.checkpoint_queue.append('%s_acc_%.2f_ppl_%.2f_e%d.pt'
-				   % (opt.save_model, valid_stats.accuracy() if valid_stats is not None else 0,
-					  valid_stats.ppl() if valid_stats is not None else 0, epoch))
+		if self.keep_checkpoint > 0:
+			if len(self.checkpoint_queue) == self.checkpoint_queue.maxlen:
+				todel = self.checkpoint_queue.popleft()
+				self._rm_checkpoint(todel)
+			self.checkpoint_queue.append('%s_acc_%.2f_ppl_%.2f_e%d.pt'
+					% (opt.save_model, valid_stats.accuracy() if valid_stats is not None else 0,
+					valid_stats.ppl() if valid_stats is not None else 0, epoch))
 
 	def _gradient_accumulation(self, true_batchs, total_stats,
 							   report_stats, normalization, train_part):
@@ -359,5 +359,5 @@ class Trainer(object):
 		if self.grad_accum_count > 1:
 			self.optim.step()
 	def _rm_checkpoint(self, name):
-            if os.path.exists(name):
-                os.remove(name)
+		if os.path.exists(name):
+			os.remove(name)
