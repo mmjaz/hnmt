@@ -36,6 +36,7 @@ import torch.nn as nn
 import onmt
 import onmt.io
 import onmt.modules
+from collections import deque
 
 
 class Statistics(object):
